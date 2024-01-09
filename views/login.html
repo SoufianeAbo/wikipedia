@@ -16,7 +16,7 @@
         <div class="card-body">
           <h2 class="card-title text-3xl">Wiki</h2>
           <div class = "loginForm">
-            <div>
+            <form method = "POST" action = "../index.php?login">
                 <label class="form-control w-full max-w-xs">
                     <div class="label">
                       <span class="label-text">E-mail</span>
@@ -32,10 +32,10 @@
                     <input type="password" placeholder="Password" class="input input-bordered w-full max-w-xs" />
                   </label>
               </div>
-          </div>
+            </form>
 
           <div class = "registerForm hidden">
-            <div class = "flex flex-row gap-2">
+            <form class = "flex flex-row gap-2" method = "POST" action = "../index.php?register">
                 <div>
                     <label class="form-control w-full max-w-xs">
                         <div class="label">
@@ -70,7 +70,7 @@
                     <input type="password" placeholder="Password" class="input input-bordered w-full max-w-xs" />
                   </label>
               </div>
-          </div>
+            </form>
 
           <p id = "LoginBtn" class = "underline cursor-pointer loginForm">Don't have an account? Click here to register</p>
           <p id = "RegisterBtn" class = "underline cursor-pointer registerForm hidden">Have an account already? Click here to login</p>
