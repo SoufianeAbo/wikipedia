@@ -15,7 +15,9 @@ function makeRegisterHidden() {
         form.classList.add("hidden");
     })
 
+    submitBtn.innerHTML = '';
     submitBtn.innerHTML = "Login";
+    submitBtn.setAttribute("form", "login");
 }
 
 function makeLoginHidden() {
@@ -27,7 +29,9 @@ function makeLoginHidden() {
         form.classList.add("hidden");
     });
 
-    submitBtn.innerHMTL = "Register";
+    submitBtn.innerHTML = '';
+    submitBtn.innerHTML = "Register";
+    submitBtn.setAttribute("form", "register");
 }
 
 loginBtn.addEventListener("click", makeLoginHidden);
