@@ -16,7 +16,7 @@
 <body class="bg-gray-800 font-sans leading-normal tracking-normal mt-12 h-screen bg-white">
 
 
-<nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+<nav class="fixed top-0 z-50 w-full border-b border-gray-200 bg-gray-800 border-gray-700">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
         <div class="flex items-center justify-between">
             <div class="flex items-center justify-start rtl:justify-end">
@@ -38,7 +38,7 @@
                             <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
                         </button>
                     </div>
-                    <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
+                    <div class="z-50 hidden my-4 text-base list-none divide-y divide-gray-100 rounded shadow bg-gray-700 divide-gray-600" id="dropdown-user">
                         <div class="px-4 py-3" role="none">
                             <p class="text-sm text-gray-900 dark:text-white" role="none">
                             </p>
@@ -60,10 +60,8 @@
     </div>
 </nav>
 
-
-
-<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-gray-800 dark:border-gray-700" aria-label="Sidebar">
-    <div class="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
+<aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 border-r border-gray-200 sm:translate-x-0 bg-gray-800 border-gray-700" aria-label="Sidebar">
+    <div class="h-full px-3 pb-4 overflow-y-auto bg-gray-800">
         <ul class="space-y-2 font-medium">
             <li>
                 <a href="</wikis/dashboard" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
@@ -113,37 +111,70 @@
     </div>
 </aside>
 
-
 <div class="p-8 sm:ml-64">
+
+<div class = "grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+<?php foreach ($categories as $category) { ?>
   <button onclick = "my_modal_5.showModal()" class="btn btn-success fixed bottom-0 right-0 m-4 z-50"><i class="fa-solid fa-layer-group"></i>Add category</button>
   <div class="card w-96 bg-base-100 shadow-xl">
     <div class="card-body">
-      <h2 class="card-title">Card title!</h2>
-      <p>If a dog chews shoes whose shoes does he choose?</p>
-      <div class="card-actions justify-end">
-        <button class="btn btn-primary">Buy Now</button>
-      </div>
-    </div>
+        <h2 class="card-title"><?= $category['name'] ?></h2>
+        <div class="card-actions justify-end">
+        <button onclick = "modifyModal_<?php echo $category['id']?>.showModal()" class="btn btn-primary"><i class="fa-solid fa-pen"></i>Modify</button>
+        <form action="../dashboardAdmin.php" method="POST">
+            <input type="text" name = "categoryIdDelete" class = "hidden" value = "<?php echo $category['id'] ?>">
+            <button type = "submit" class="btn bg-red-500 text-black"><i class="fa-solid fa-trash"></i>Delete</button>
+        </form>
+        </div>
+    </div> 
+  </div>
+  <?php } ?>
   </div>
 
-  <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+  <?php foreach ($categories as $category) { ?>
+    <dialog id="modifyModal_<?php echo $category['id']?>" class="modal modal-bottom sm:modal-middle">
     <div class="modal-box">
     <div class="form-control">
       <label class="input-group input-group-vertical">
-        <form action="../dashboardAdmin.php" method = "POST"></form>
-        <input type="text" placeholder="Category name..." class="input input-bordered w-full max-w-xs" />
+        <form action="../dashboardAdmin.php" method = "POST">
+        <input name = "categoryId" type = "text" class = "hidden" value = "<?php echo $category['id'] ?>" />
+        <input name = "categoryEdit" type="text" placeholder="Category name..." class="input input-bordered w-full max-w-xs" value = "<?php echo $category['name'] ?>"/>
       </label>
     </div>
       <div class="modal-action">
       <div class = "flex flex-row gap-4">
         <div>
           <button class="btn btn-success">Submit</button>
-          </form>
         </div>
+        </form>
 
 
         <form method="dialog">
-          <!-- if there is a button in form, it will close the modal -->
+          <button class="btn">Close</button>
+        </form>
+      </div>
+    </div>
+    </div>
+  </dialog>
+    <?php } ?>
+
+  <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+    <div class="modal-box">
+    <div class="form-control">
+      <label class="input-group input-group-vertical">
+        <form action="../dashboardAdmin.php" method = "POST">
+        <input name = "category" type="text" placeholder="Category name..." class="input input-bordered w-full max-w-xs" />
+      </label>
+    </div>
+      <div class="modal-action">
+      <div class = "flex flex-row gap-4">
+        <div>
+          <button class="btn btn-success">Submit</button>
+        </div>
+        </form>
+
+
+        <form method="dialog">
           <button class="btn">Close</button>
         </form>
       </div>
