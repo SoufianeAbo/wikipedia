@@ -1,6 +1,6 @@
 <?php
 
-class TagsModel {
+class WikiModel {
     private $conn;
 
     public function __construct($servername, $username, $password, $dbname) {
@@ -11,8 +11,8 @@ class TagsModel {
         }
     }
 
-    public function addTag($tagName, $tagCategory) {
-        $sql = "INSERT INTO tags (tag, categoryId) VALUES ('$tagName', $tagCategory)";
+    public function addWiki($wikiTitle, $wikiDescription, $wikiCreatorId, $wikiCategoryId) {
+        $sql = "INSERT INTO wiki (title, description, creatorId, categoryId) VALUES ('$wikiTitle', '$wikiDescription', $wikiCreatorId, $wikiCategoryId)";
 
         if ($this->conn->query($sql) === TRUE) {
             echo "Category added successfully";
@@ -21,8 +21,8 @@ class TagsModel {
         }
     }
 
-    public function showTags() {
-        $sql = "SELECT * FROM tags";
+    public function showWiki() {
+        $sql = "SELECT * FROM wiki";
         
         $result = $this->conn->query($sql);
     
@@ -52,26 +52,6 @@ class TagsModel {
             echo "Category updated successfully";
         } else {
             echo "Error updating category: " . $this->conn->error;
-        }
-    }
-
-    public function getTagsByCategory($categoryId) {
-        $categoryId = mysqli_real_escape_string($this->conn, $categoryId);
-
-        $sql = "SELECT id, tag FROM tags WHERE categoryId = $categoryId";
-        $result = $this->conn->query($sql);
-        
-        if ($result !== false && $result->num_rows > 0) {
-            $tags = array();
-
-            while ($row = $result->fetch_assoc()) {
-                $tags[] = $row;
-            }
-
-            
-            return $tags;
-        } else {
-            return false;
         }
     }
     

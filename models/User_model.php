@@ -9,6 +9,8 @@ class UserModel {
         if ($this->db->connect_error) {
             die("Connection failed: " . $this->db->connect_error);
         }
+
+        session_start();
     }
 
     public function registerUser($firstname, $lastname, $email, $password) {
@@ -28,13 +30,20 @@ class UserModel {
     }
 
     public function loginUser($username, $password) {
-        $stmt = $this->db->prepare("SELECT id, password FROM users WHERE email = ?");
+        $stmt = $this->db->prepare("SELECT id, password, firstName, lastName, role, email FROM users WHERE email = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
-        $stmt->bind_result($userId, $hashedPassword);
+        $stmt->bind_result($userId, $hashedPassword, $firstName, $lastName, $role, $email);
 
         if ($stmt->fetch() && password_verify($password, $hashedPassword)) {
             $stmt->close();
+
+            $_SESSION['id'] = $userId;
+            $_SESSION['firstName'] = $firstName;
+            $_SESSION['lastName'] = $lastName;
+            $_SESSION['role'] = $role;
+            $_SESSION['email'] = $email;
+            
             return $userId;
         } else {
             $stmt->close();

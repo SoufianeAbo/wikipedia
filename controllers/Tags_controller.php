@@ -28,5 +28,14 @@ class TagsController {
     public function deleteTag($tagId) {
         $this->tagsModel->deleteTag($tagId);
     }
+
+    public function getTagsByCategory($categoryId) {
+        try {
+            $tags = $this->tagsModel->getTagsByCategory($categoryId);
+            return ['tags' => $tags];
+        } catch (Exception $e) {
+            return ['error' => 'Error fetching tags: ' . $e->getMessage()];
+        }
+    }
 }
 ?>
