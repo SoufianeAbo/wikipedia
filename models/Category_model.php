@@ -61,6 +61,24 @@ class CategoryModel {
             echo "Error updating category: " . $this->conn->error;
         }
     }
+
+    public function showCategoryNames() {
+        $sql = "SELECT id, name FROM categories";
+
+        $result = $this->conn->query($sql);
+
+        if ($result !== false) {
+            $categories = array();
+
+            while ($row = $result->fetch_assoc()) {
+                $categories[$row['id']] = $row['name'];
+            }
+
+            return $categories;
+        } else {
+            echo "Error: " . $sql . "<br>" . $this->conn->error;
+        }
+    }
     
 
     public function closeConnection() {
