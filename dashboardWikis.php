@@ -9,20 +9,12 @@ $userController = new TagsController("localhost", "root", "", "wiki");
 $categoryController = new CategoryController("localhost", "root", "", "wiki");
 $wikiController = new WikiController("localhost", "root", "", "wiki");
 
-// if (isset($_POST['tag'])) {
-//     $userController->addTag($_POST['tag'], $_POST['tagCategory']);
-// }
-
-// if (isset($_POST['tagEdit'])) {
-//     $userController->updateTags($_POST['tagEdit'], $_POST['tagName'], $_POST['tagCategory']);
-// }
-
-// if (isset($_POST['tagIdDelete'])) {
-//     $userController->deleteTag($_POST['tagIdDelete']);
-// }
-
 if (isset($_POST['deleteWiki'])) {
     $wikiController->deleteWiki($_POST['deleteWiki']);
+}
+
+if (isset($_POST['archiveWiki'])) {
+    $wikiController->archiveWiki($_POST['archiveWiki']);
 }
 
 if (isset($_POST['tags'])) {
@@ -45,7 +37,10 @@ $categoryNames = $categoryController->showCategoryNames();
 
 $categoryNamesRecent = $categoryController->showCategoryNames(true);
 
+
 $wikis = $wikiController->showWikiTags();
+
+
 $wikisRecent = $wikiController->showWikiTags(true);
 
 if (isset($_GET['wikiId'])) {

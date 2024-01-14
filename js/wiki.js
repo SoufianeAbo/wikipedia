@@ -138,3 +138,21 @@ document.addEventListener("DOMContentLoaded", function () {
         form.submit();
     });
 });
+
+$(document).ready(function () {
+    $('#searchInput').on('input', function () {
+        var searchTerm = $(this).val();
+
+        $.ajax({
+            type: 'POST',
+            url: 'your_search_endpoint.php',
+            data: { searchTerm: searchTerm },
+            success: function (response) {
+                $('#searchResults').html(response);
+            },
+            error: function (error) {
+                console.error('Error:', error);
+            }
+        });
+    });
+});

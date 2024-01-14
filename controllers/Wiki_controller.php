@@ -25,6 +25,10 @@ class WikiController {
         $this->wikiModel->deleteWiki($wiki);
     }
 
+    public function archiveWiki($wiki) {
+        $this->wikiModel->archiveWiki($wiki);
+    }
+
     public function updateWiki($wikiId, $title, $description, $categoryId, $creatorId, $tagIds) {
         $this->wikiModel->updateWiki($wikiId, $title, $description, $categoryId, $creatorId, $tagIds);
         $this->wikiModel->updateTagsToWiki($wikiId, $tagIds);

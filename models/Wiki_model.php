@@ -111,7 +111,8 @@ class WikiModel {
         LEFT JOIN wikitags ON wiki.id = wikitags.wiki_id
         LEFT JOIN tags ON wikitags.tag_id = tags.id
         LEFT JOIN categories ON wiki.categoryId = categories.id
-        LEFT JOIN users ON wiki.creatorId = users.id";
+        LEFT JOIN users ON wiki.creatorId = users.id
+        WHERE wiki.archive = 0";
 
         if ($dateTrue) {
             $sql .= " GROUP BY wiki.id ORDER BY wiki.dateofCreation DESC, wiki.hourOfCreation DESC LIMIT 5";
@@ -142,6 +143,18 @@ class WikiModel {
         } else {
             echo "Error updating category: " . $this->conn->error;
         }
+    }
+
+    public function archiveWiki($wiki) {
+        $archive = 1;
+
+        $query = "UPDATE wiki SET archive = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ii", $archive, $wiki);
+        $stmt->execute();
+        $stmt->close();
+
+        return $this->conn->insert_id;
     }
 }
 

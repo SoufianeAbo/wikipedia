@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once './controllers/Tags_Controller.php';
 require_once './controllers/Category_controller.php';
 

@@ -10,6 +10,8 @@ include 'head.html';
 
 <div class="p-8 sm:ml-64">
 
+<input id = "searchInput" class = "text-black w-full bg-white p-2 border border-gray-500" placeholder = "Search..." type="text">
+
 <div class = "flex flex-row gap-8">
     <div class = "flex flex-col w-full">
         <?php foreach ($wikis as $wiki) { ?>
@@ -21,14 +23,22 @@ include 'head.html';
                 <p class = "text-black"><?php echo $wiki['wiki']['description'] ?></p>
                 <div class = "flex flex-row w-full justify-between">
                     <p><?php echo implode(', ', $wiki['tags']) ?></p>
-                    <div class = "flex flex-row items-center">
-                    <form action="../dashboardWikis.php" method = "POST">
+                    <div class = "flex flex-row items-center gap-2">
                     <!-- <a onclick = "modal<?php echo $wiki['wiki']['id'] ?>.showModal()" class = "rounded bg-orange-500 p-2 text-white justify-self-end self-end w-fit cursor-pointer"><i class="fa-solid fa-pen mr-2"></i>Modify</a> -->
+                        <form action="../dashboardWikis.php" method = "POST">
                         <a href = "../dashboardWikis.php?wikiId=<?php echo $wiki['wiki']['id'] ?>" class = "rounded bg-blue-500 p-2 text-white justify-self-end self-end w-fit cursor-pointer"><i class="fa-solid fa-magnifying-glass mr-2"></i>Show more</a>
                             <input type="text" name = "deleteWiki" value = "<?php echo $wiki['wiki']['id'] ?>" class = "hidden">
                             <?php if (isset($_SESSION['id'])) { ?>
                             <?php if ($_SESSION['id'] == $wiki['wiki']['creatorId']) { ?>
                             <button class = "rounded bg-red-500 p-2 text-white justify-self-end self-end w-fit cursor-pointer"><i class="fa-solid fa-trash-can mr-2"></i>Delete</button>
+                            <?php } ?>
+                            <?php } ?>
+                        </form>
+                        <form action="../dashboardWikis.php" method = "POST">
+                            <input type="text" name = "archiveWiki" value = "<?php echo $wiki['wiki']['id'] ?>" class = "hidden">
+                            <?php if (isset($_SESSION['id'])) { ?>
+                            <?php if ($_SESSION['role'] == "admin") { ?>
+                            <button class = "rounded bg-red-500 p-2 text-white justify-self-end self-end w-fit cursor-pointer"><i class="fa-solid fa-trash-can mr-2"></i>Archive</button>
                             <?php } ?>
                             <?php } ?>
                         </form>
