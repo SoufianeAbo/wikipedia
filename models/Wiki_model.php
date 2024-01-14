@@ -24,6 +24,19 @@ class WikiModel {
         return $this->conn->insert_id;
     }
 
+    public function updateWiki($wikiId, $title, $description, $categoryId, $creatorId) {
+        $currentDate = date('Y-m-d');
+        $currentHour = date('H:i:s');
+
+        $query = "UPDATE wiki SET title = ?, description = ?, categoryId = ?, creatorId = ?, dateofCreation = ?, hourofCreation = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ssiissi", $title, $description, $categoryId, $creatorId, $currentDate, $currentHour, $wikiId);
+        $stmt->execute();
+        $stmt->close();
+
+        return $this->conn->insert_id;
+    }
+
     public function showWiki() {
         $sql = "SELECT * FROM wiki";
         
@@ -64,13 +77,33 @@ class WikiModel {
     
         $tagArray = explode(',', $tagIds);
         foreach ($tagArray as $tagId) {
-            $tagId = trim($tagId); // Remove extra spaces
+            $tagId = trim($tagId);
             $stmt->bind_param("ii", $wikiId, $tagId);
             $stmt->execute();
         }
     
         $stmt->close();
     }
+
+    public function updateTagsToWiki($wikiId, $tagIds) {
+        $deleteQuery = "DELETE FROM wikitags WHERE wiki_id = ?";
+        $deleteStmt = $this->conn->prepare($deleteQuery);
+        $deleteStmt->bind_param("i", $wikiId);
+        $deleteStmt->execute();
+        $deleteStmt->close();
+    
+        $insertQuery = "INSERT INTO wikitags (wiki_id, tag_id) VALUES (?, ?)";
+        $insertStmt = $this->conn->prepare($insertQuery);
+    
+        $tagArray = explode(',', $tagIds);
+        foreach ($tagArray as $tagId) {
+            $tagId = trim($tagId);
+            $insertStmt->bind_param("ii", $wikiId, $tagId);
+            $insertStmt->execute();
+        }
+    
+        $insertStmt->close();
+    }    
 
     public function showWikiWithTags() {
         $sql = "SELECT wiki.*, wikitags.tag_id, tags.tag, categories.name

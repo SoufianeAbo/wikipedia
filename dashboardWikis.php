@@ -45,5 +45,22 @@ $categoryNames = $categoryController->showCategoryNames();
 
 $wikis = $wikiController->showWikiTags();
 
-include "./views/dashboardWikis.php";
+if (isset($_GET['wikiId'])) {
+    $wikiId = $_GET['wikiId'];
+    if (isset($_GET['modify'])) {
+
+        $tagsString = $_POST['tagsUpdate'];
+
+        $title = $_POST['titleUpdate'];
+        $description = $_POST['descriptionUpdate'];
+        $tagCategory = $_POST['tagCategoryUpdate'];
+
+        $wikiController->updateWiki($wikiId, $title, $description, $tagCategory, $_SESSION['id'], $tagsString);
+        Header ("Location: ../dashboardWikis.php?wikiId=$wikiId");
+    } else {
+        include "./views/Wiki.php";
+    }
+} else {
+    include "./views/dashboardWikis.php";
+}
 ?>
