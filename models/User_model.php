@@ -51,6 +51,11 @@ class UserModel {
         }
     }
 
+    public function logout() {
+        session_unset();
+        session_destroy();
+    }
+
     public function closeConnection() {
         $this->db->close();
     }

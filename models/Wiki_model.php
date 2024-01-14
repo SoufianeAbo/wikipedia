@@ -106,11 +106,12 @@ class WikiModel {
     }    
 
     public function showWikiWithTags($dateTrue = null) {
-        $sql = "SELECT wiki.*, wikitags.tag_id, tags.tag, categories.name
+        $sql = "SELECT wiki.*, wikitags.tag_id, tags.tag, categories.name, users.firstName, users.lastName
         FROM wiki
         LEFT JOIN wikitags ON wiki.id = wikitags.wiki_id
         LEFT JOIN tags ON wikitags.tag_id = tags.id
-        LEFT JOIN categories ON wiki.categoryId = categories.id";
+        LEFT JOIN categories ON wiki.categoryId = categories.id
+        LEFT JOIN users ON wiki.creatorId = users.id";
 
         if ($dateTrue) {
             $sql .= " GROUP BY wiki.id ORDER BY wiki.dateofCreation DESC, wiki.hourOfCreation DESC LIMIT 5";

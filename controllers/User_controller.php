@@ -17,6 +17,10 @@ class UserController {
         return $this->userModel->loginUser($username, $password);
     }
 
+    public function logout() {
+        $this->userModel->logout();
+    }
+
     public function closeConnection() {
         $this->userModel->closeConnection();
     }

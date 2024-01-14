@@ -26,7 +26,7 @@ if (isset($_GET['login'])) {
 
     if ($userId) {
         echo "Login successful! User ID: $userId";
-        Header ("Location: ./index.php");
+        Header ("Location: ./dashboardWikis.php");
     } else {
         echo "Login failed!";
     }
