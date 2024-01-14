@@ -105,12 +105,17 @@ class WikiModel {
         $insertStmt->close();
     }    
 
-    public function showWikiWithTags() {
+    public function showWikiWithTags($dateTrue = null) {
         $sql = "SELECT wiki.*, wikitags.tag_id, tags.tag, categories.name
         FROM wiki
         LEFT JOIN wikitags ON wiki.id = wikitags.wiki_id
         LEFT JOIN tags ON wikitags.tag_id = tags.id
         LEFT JOIN categories ON wiki.categoryId = categories.id";
+
+        if ($dateTrue) {
+            $sql .= " GROUP BY wiki.id ORDER BY wiki.dateofCreation DESC, wiki.hourOfCreation DESC LIMIT 5";
+        }
+
         
         $result = $this->conn->query($sql);
     

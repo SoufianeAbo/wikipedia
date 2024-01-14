@@ -43,7 +43,10 @@ $tags = $userController->showTags();
 $categories = $categoryController->showCategories();
 $categoryNames = $categoryController->showCategoryNames();
 
+$categoryNamesRecent = $categoryController->showCategoryNames(true);
+
 $wikis = $wikiController->showWikiTags();
+$wikisRecent = $wikiController->showWikiTags(true);
 
 if (isset($_GET['wikiId'])) {
     $wikiId = $_GET['wikiId'];

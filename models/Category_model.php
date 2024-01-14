@@ -14,13 +14,20 @@ class CategoryModel {
     public function addCategory($categoryName) {
         $categoryName = trim(htmlspecialchars($categoryName));
 
-        $sql = "INSERT INTO categories (name) VALUES ('$categoryName')";
+        $currentDate = date('Y-m-d');
+        $currentHour = date('H:i:s');
 
-        if ($this->conn->query($sql) === TRUE) {
+        $sql = "INSERT INTO categories (name, dateofCreation, hourofCreation) VALUES (?, ?, ?)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("sss", $categoryName, $currentDate, $currentHour);
+
+        if ($stmt->execute()) {
             echo "Category added successfully";
         } else {
-            echo "Error: " . $sql . "<br>" . $this->conn->error;
+            echo "Error: " . $sql . "<br>" . $stmt->error;
         }
+
+        $stmt->close();
     }
 
     public function showCategories() {
@@ -41,29 +48,44 @@ class CategoryModel {
         $categoryId = (int)$categoryId;
         $newCategoryName = trim(htmlspecialchars($newCategoryName));
 
-        $sql = "UPDATE categories SET name = '$newCategoryName' WHERE id = $categoryId";
+        $currentDate = date('Y-m-d');
+        $currentHour = date('H:i:s');
 
-        if ($this->conn->query($sql) === TRUE) {
+        $sql = "UPDATE categories SET name = ?, dateofCreation = ?, hourofCreation = ? WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("sssi", $newCategoryName, $currentDate, $currentHour, $categoryId);
+
+        if ($stmt->execute()) {
             echo "Category updated successfully";
         } else {
-            echo "Error updating category: " . $this->conn->error;
+            echo "Error updating category: " . $stmt->error;
         }
+
+        $stmt->close();
     }
 
     public function deleteCategory($categoryId) {
         $categoryId = (int)$categoryId;
 
-        $sql = "DELETE FROM categories WHERE id = $categoryId";
+        $sql = "DELETE FROM categories WHERE id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param("i", $categoryId);
 
-        if ($this->conn->query($sql) === TRUE) {
-            echo "Category updated successfully";
+        if ($stmt->execute()) {
+            echo "Category deleted successfully";
         } else {
-            echo "Error updating category: " . $this->conn->error;
+            echo "Error deleting category: " . $stmt->error;
         }
+
+        $stmt->close();
     }
 
-    public function showCategoryNames() {
+    public function showCategoryNames($date = null) {
         $sql = "SELECT id, name FROM categories";
+
+        if ($date) {
+            $sql .= " GROUP BY id ORDER BY dateofCreation DESC, hourOfCreation DESC LIMIT 5";
+        }
 
         $result = $this->conn->query($sql);
 
@@ -79,7 +101,6 @@ class CategoryModel {
             echo "Error: " . $sql . "<br>" . $this->conn->error;
         }
     }
-    
 
     public function closeConnection() {
         $this->conn->close();

@@ -17,8 +17,8 @@ class WikiController {
         return $this->wikiModel->showWiki();
     }
 
-    public function showWikiTags() {
-        return $this->wikiModel->showWikiWithTags();
+    public function showWikiTags($date = null) {
+        return $this->wikiModel->showWikiWithTags($date);
     }
 
     public function deleteWiki($wiki) {

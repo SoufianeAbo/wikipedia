@@ -2,7 +2,7 @@
 include 'head.html';
 ?>
 
-<body class="bg-gray-800 font-sans leading-normal tracking-normal mt-12 h-screen bg-white">
+<body class="bg-gray-800 font-sans leading-normal tracking-normal mt-12 h-max bg-white">
 
 
 <nav class="fixed top-0 z-50 w-full border-b border-gray-200 bg-gray-800 border-gray-700">
@@ -53,9 +53,9 @@ include 'head.html';
 
 <div class="p-8 sm:ml-64">
 
+<button onclick = "my_modal_5.showModal()" class="btn btn-success fixed bottom-0 right-0 m-4 z-50 text-white"><i class="fa-solid fa-layer-group"></i>Add category</button>
 <div class = "grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
 <?php foreach ($categories as $category) { ?>
-  <button onclick = "my_modal_5.showModal()" class="btn btn-success fixed bottom-0 right-0 m-4 z-50 text-white"><i class="fa-solid fa-layer-group"></i>Add category</button>
   <div class="card bg-white w-96 shadow-xl">
     <div class="card-body">
         <h2 class="card-title text-black"><?= $category['name'] ?></h2>

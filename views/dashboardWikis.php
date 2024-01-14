@@ -2,7 +2,7 @@
 include 'head.html';
 ?>
 
-<body class="bg-gray-800 font-sans leading-normal tracking-normal mt-12 h-max bg-white">
+<body class="bg-gray-800 font-sans leading-normal tracking-normal mt-12 h-full bg-white">
 
 <nav class="fixed top-0 z-50 w-full border-b border-gray-200 bg-gray-800 border-gray-700">
     <div class="px-3 py-3 lg:px-5 lg:pl-3">
@@ -117,23 +117,18 @@ include 'head.html';
 
     <div class = "flex flex-col">
         <div class = "shadow-lg w-64 flex items-center flex-col p-6">
-            <p class = "text-black">Recent categories</p>
-            <p class = "text-black">Hello</p>
-            <p class = "text-black">Hello</p>
-            <p class = "text-black">Hello</p>
-            <p class = "text-black">Hello</p>
-            <p class = "text-black">Hello</p>
+            <p class = "text-black font-bold text-2xl border-b border-gray-200 mb-2">Recent wikis</p>
+            <?php foreach ($wikisRecent as $wiki) { ?>
+                <a href = "../dashboardWikis.php?wikiId=<?php echo $wiki['wiki']['id'] ?>" class = "text-black"><?php echo $wiki['wiki']['title'] ?></a>
+            <?php } ?>
 
         </div>
 
         <div class = "shadow-lg w-64 flex items-center flex-col p-6">
-            <p class = "text-black">Recent categories</p>
-            <p class = "text-black">Hello</p>
-            <p class = "text-black">Hello</p>
-            <p class = "text-black">Hello</p>
-            <p class = "text-black">Hello</p>
-            <p class = "text-black">Hello</p>
-
+        <p class = "text-black font-bold text-2xl border-b border-gray-200 mb-2">Recent wikis</p>
+            <?php foreach ($categoryNamesRecent as $category) { ?>
+                <a class = "text-black"><?php echo $category ?></a>
+            <?php } ?>
         </div>
     </div>
     </div>
@@ -144,11 +139,11 @@ include 'head.html';
             <div class = "flex flex-row gap-8 w-full">
                 <div class = "flex flex-col">
                     <form action="../dashboardWikis.php" method = "POST">
-                    <input name = "titleUpdate" class="input input-bordered w-full max-w-xs" type="text" placeholder="Wiki title" />
-                    <input name = "tagsUpdate" type="text" id = "selected_tag_id" class = "hidden" value = "">
-                    <textarea name = "descriptionUpdate" class="textarea textarea-bordered resize-none w-full max-w-xs mt-4" placeholder="Wiki description"></textarea>
+                    <input name = "title" class="input input-bordered w-full max-w-xs" type="text" placeholder="Wiki title" />
+                    <input name = "tags" type="text" id = "selected_tag_id" class = "hidden" value = "">
+                    <textarea name = "description" class="textarea textarea-bordered resize-none w-full max-w-xs mt-4" placeholder="Wiki description"></textarea>
                     <div class="dropdown pt-4">
-                        <select id = "selectForm" onchange="handleCategoryChange(this)" name = "tagCategoryUpdate" class="select select-bordered z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
+                        <select id = "selectForm" onchange="handleCategoryChange(this)" name = "tagCategory" class="select select-bordered z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
                             <option disabled selected><a>Select a category</a></option>
                             <?php foreach ($categories as $category) { ?>
                             <option value = "<?php echo $category['id'] ?>"><a><?php echo $category['name'] ?></a>
