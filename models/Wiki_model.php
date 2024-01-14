@@ -11,14 +11,17 @@ class WikiModel {
         }
     }
 
-    public function addWiki($wikiTitle, $wikiDescription, $wikiCreatorId, $wikiCategoryId) {
-        $sql = "INSERT INTO wiki (title, description, creatorId, categoryId) VALUES ('$wikiTitle', '$wikiDescription', $wikiCreatorId, $wikiCategoryId)";
+    public function addWiki($title, $description, $categoryId, $creatorId) {
+        $currentDate = date('Y-m-d');
+        $currentHour = date('H:i:s');
 
-        if ($this->conn->query($sql) === TRUE) {
-            echo "Category added successfully";
-        } else {
-            echo "Error: " . $sql . "<br>" . $this->conn->error;
-        }
+        $query = "INSERT INTO wiki (title, description, categoryId, creatorId, dateofCreation, hourofCreation) VALUES (?, ?, ?, ?, ?, ?)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param("ssiiss", $title, $description, $categoryId, $creatorId, $currentDate, $currentHour);
+        $stmt->execute();
+        $stmt->close();
+
+        return $this->conn->insert_id;
     }
 
     public function showWiki() {
@@ -54,10 +57,52 @@ class WikiModel {
             echo "Error updating category: " . $this->conn->error;
         }
     }
-    
 
-    public function closeConnection() {
-        $this->conn->close();
+    public function addTagsToWiki($wikiId, $tagIds) {
+        $query = "INSERT INTO wikitags (wiki_id, tag_id) VALUES (?, ?)";
+        $stmt = $this->conn->prepare($query);
+    
+        $tagArray = explode(',', $tagIds);
+        foreach ($tagArray as $tagId) {
+            $tagId = trim($tagId); // Remove extra spaces
+            $stmt->bind_param("ii", $wikiId, $tagId);
+            $stmt->execute();
+        }
+    
+        $stmt->close();
+    }
+
+    public function showWikiWithTags() {
+        $sql = "SELECT wiki.*, wikitags.tag_id, tags.tag, categories.name
+        FROM wiki
+        LEFT JOIN wikitags ON wiki.id = wikitags.wiki_id
+        LEFT JOIN tags ON wikitags.tag_id = tags.id
+        LEFT JOIN categories ON wiki.categoryId = categories.id";
+        
+        $result = $this->conn->query($sql);
+    
+        if ($result !== false) {
+            $data = array();
+    
+            while ($row = $result->fetch_assoc()) {
+                $data[$row['id']]['wiki'] = $row;
+                $data[$row['id']]['tags'][] = $row['tag'];
+            }
+    
+            return $data;
+        } else {
+            echo "Error: " . $sql . "<br>" . $this->conn->error;
+        }
+    }
+    
+    public function deleteWiki($wiki) {
+        $sql = "DELETE FROM wiki WHERE id = $wiki";
+
+        if ($this->conn->query($sql) === TRUE) {
+            echo "Category updated successfully";
+        } else {
+            echo "Error updating category: " . $this->conn->error;
+        }
     }
 }
 
