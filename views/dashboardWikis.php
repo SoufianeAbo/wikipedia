@@ -13,7 +13,7 @@ include 'head.html';
 <input id = "searchInput" class = "text-black w-full bg-white p-2 border border-gray-500" placeholder = "Search..." type="text">
 
 <div class = "flex flex-row gap-8">
-    <div class = "flex flex-col w-full">
+    <div id = "searchResults" class = "flex flex-col w-full">
         <?php foreach ($wikis as $wiki) { ?>
             <div class = "p-8 border-b border-gray-500">
                 <div class = "flex flex-row justify-between">
@@ -46,44 +46,6 @@ include 'head.html';
                 </div>
             </div>
         <?php } ?>
-
-        <!-- <?php foreach ($wikis as $wiki) { ?>
-            <dialog id="modal<?php echo $wiki['wiki']['id'] ?>" class="modal modal-bottom sm:modal-middle">
-                <div class="modal-box">
-                <div class = "flex flex-row gap-8 w-full">
-                    <div class = "flex flex-col">
-                        <form action="../dashboardWikis.php" method = "POST">
-                        <input name = "title" class="input input-bordered w-full max-w-xs" type="text" placeholder="Wiki title" />
-                        <input name = "tags" type="text" id = "selected_tag_id" class = "hidden" value = "">
-                        <textarea name = "description" class="textarea textarea-bordered resize-none w-full max-w-xs mt-4" placeholder="Wiki description"></textarea>
-                        <div class="dropdown pt-4">
-                            <select id = "selectForm" onchange="handleCategoryChange(this)" name = "tagCategory" class="select select-bordered z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                                <option disabled selected><a>Select a category</a></option>
-                                <?php foreach ($categories as $category) { ?>
-                                <option value = "<?php echo $category['id'] ?>"><a><?php echo $category['name'] ?></a>
-                                <?php } ?> 
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class = "flex flex-col w-full">
-                        <p>Tags</p>
-                        <div id = "tagContainer">
-
-                        </div>
-                        <a id = "addBtn" class = "rounded bg-green-500 px-2 py-1 mt-2 cursor-pointer text-black"><i class="fa-solid fa-plus"></i></a>
-                    </div>
-                </div>
-                <div class="modal-action">
-                <button type = "submit" class="btn bg-green-500 text-black">Submit</button>
-                </form>
-                <form method="dialog">
-                    <button class="btn">Close</button>
-                </form>
-                </div>
-            </div>
-            </dialog>
-            <?php } ?> -->
 
     </div>
 

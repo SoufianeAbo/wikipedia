@@ -140,19 +140,35 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 $(document).ready(function () {
-    $('#searchInput').on('input', function () {
-        var searchTerm = $(this).val();
+    // Initial state of the search results
+    const originalSearchResultsHtml = $('#searchResults').html();
 
-        $.ajax({
-            type: 'POST',
-            url: 'your_search_endpoint.php',
-            data: { searchTerm: searchTerm },
-            success: function (response) {
-                $('#searchResults').html(response);
-            },
-            error: function (error) {
-                console.error('Error:', error);
-            }
-        });
+    $('#searchInput').on('input', function () {
+        var searchTerm = $(this).val().trim();
+
+        // Check if the search term is empty
+        if (searchTerm === '') {
+            // Revert to the original content
+            resetSearchResults(originalSearchResultsHtml);
+        } else {
+            // Perform the AJAX request
+            $.ajax({
+                type: 'POST',
+                url: '../views/ajax.php',
+                data: { searchTerm: searchTerm },
+                success: function (response) {
+                    $('#searchResults').html(response);
+                },
+                error: function (error) {
+                    console.error('Error:', error);
+                }
+            });
+        }
     });
+
+    // Function to reset the search results
+    function resetSearchResults(htmlContent) {
+        $('#searchResults').html(htmlContent);
+    }
 });
+
