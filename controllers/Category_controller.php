@@ -29,6 +29,10 @@ class CategoryController {
         $this->categoryModel->deleteCategory($categoryId);
     }
 
+    public function getCount() {
+        return $this->categoryModel->getCategoriesCount();
+    }
+
     public function showCategoryNames($date = null) {
         return $this->categoryModel->showCategoryNames($date);
     }

@@ -102,6 +102,21 @@ class CategoryModel {
         }
     }
 
+    public function getCategoriesCount() {
+        $stmt = $this->conn->prepare("SELECT COUNT(*) FROM users");
+        $stmt->execute();
+        $stmt->bind_result($categoriesCount);
+    
+        if ($stmt->fetch()) {
+            $stmt->close();
+            return $categoriesCount;
+        } else {
+            $stmt->close();
+            return 0;
+        }
+    }
+    
+
     public function closeConnection() {
         $this->conn->close();
     }

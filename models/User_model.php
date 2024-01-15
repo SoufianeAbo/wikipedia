@@ -51,6 +51,20 @@ class UserModel {
         }
     }
 
+    public function getUsersCount() {
+        $stmt = $this->db->prepare("SELECT COUNT(*) FROM users");
+        $stmt->execute();
+        $stmt->bind_result($userCount);
+    
+        if ($stmt->fetch()) {
+            $stmt->close();
+            return $userCount;
+        } else {
+            $stmt->close();
+            return 0;
+        }
+    }    
+
     public function logout() {
         session_unset();
         session_destroy();

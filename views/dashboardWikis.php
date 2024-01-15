@@ -8,11 +8,11 @@ include 'head.html';
 
 <?php include 'aside.php' ?>
 
-<div class="p-8 sm:ml-64">
+<div class="p-8 sm:ml-64 h-full">
 
 <input id = "searchInput" class = "text-black w-full bg-white p-2 border border-gray-500" placeholder = "Search..." type="text">
 
-<div class = "flex flex-row gap-8">
+<div class = "flex lg:flex-row flex-col-reverse gap-8">
     <div id = "searchResults" class = "flex flex-col w-full">
         <?php foreach ($wikis as $wiki) { ?>
             <div class = "p-8 border-b border-gray-500">
@@ -21,7 +21,7 @@ include 'head.html';
                     <p class = "text-black"><?php echo $wiki['wiki']['name'] ?></p>
                 </div>
                 <p class = "text-black"><?php echo $wiki['wiki']['description'] ?></p>
-                <div class = "flex flex-row w-full justify-between">
+                <div class = "flex flex-col sm:flex-row w-full justify-between">
                     <p><?php echo implode(', ', $wiki['tags']) ?></p>
                     <div class = "flex flex-row items-center gap-2">
                     <!-- <a onclick = "modal<?php echo $wiki['wiki']['id'] ?>.showModal()" class = "rounded bg-orange-500 p-2 text-white justify-self-end self-end w-fit cursor-pointer"><i class="fa-solid fa-pen mr-2"></i>Modify</a> -->

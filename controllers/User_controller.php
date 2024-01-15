@@ -21,6 +21,10 @@ class UserController {
         $this->userModel->logout();
     }
 
+    public function getCount() {
+        return $this->userModel->getUsersCount();
+    }
+
     public function closeConnection() {
         $this->userModel->closeConnection();
     }

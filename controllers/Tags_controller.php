@@ -29,6 +29,10 @@ class TagsController {
         $this->tagsModel->deleteTag($tagId);
     }
 
+    public function getCount() {
+        return $this->tagsModel->getTagsCount();
+    }
+
     public function getTagsByCategory($categoryId) {
         try {
             $tags = $this->tagsModel->getTagsByCategory($categoryId);

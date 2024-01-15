@@ -145,6 +145,20 @@ class WikiModel {
         }
     }
 
+    public function getWikisCount() {
+        $stmt = $this->conn->prepare("SELECT COUNT(*) FROM wiki");
+        $stmt->execute();
+        $stmt->bind_result($wikiCount);
+    
+        if ($stmt->fetch()) {
+            $stmt->close();
+            return $wikiCount;
+        } else {
+            $stmt->close();
+            return 0;
+        }
+    }
+
     public function archiveWiki($wiki) {
         $archive = 1;
 

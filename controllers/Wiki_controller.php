@@ -29,6 +29,10 @@ class WikiController {
         $this->wikiModel->archiveWiki($wiki);
     }
 
+    public function getCount() {
+        return $this->wikiModel->getWikisCount();
+    }
+
     public function updateWiki($wikiId, $title, $description, $categoryId, $creatorId, $tagIds) {
         $this->wikiModel->updateWiki($wikiId, $title, $description, $categoryId, $creatorId, $tagIds);
         $this->wikiModel->updateTagsToWiki($wikiId, $tagIds);

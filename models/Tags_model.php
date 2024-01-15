@@ -54,6 +54,21 @@ class TagsModel {
             echo "Error updating category: " . $this->conn->error;
         }
     }
+    
+    public function getTagsCount() {
+        $stmt = $this->conn->prepare("SELECT COUNT(*) FROM tags");
+        $stmt->execute();
+        $stmt->bind_result($tagsCount);
+    
+        if ($stmt->fetch()) {
+            $stmt->close();
+            return $tagsCount;
+        } else {
+            $stmt->close();
+            return 0;
+        }
+    }
+    
 
     public function getTagsByCategory($categoryId) {
         $categoryId = mysqli_real_escape_string($this->conn, $categoryId);
