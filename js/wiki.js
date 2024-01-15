@@ -67,14 +67,13 @@ document.addEventListener("DOMContentLoaded", function () {
             tagContainer.removeChild(newTagDropdown);
             tagContainer.removeChild(removeButton);
 
-            // Remove the tag from the selectedTags array
             const index = dropdowns.indexOf(newTagDropdown);
 
             if (index !== -1) {
                 dropdowns.splice(index, 1);
             }
 
-            updateSelectedTagsValue(); // Update the input value
+            updateSelectedTagsValue();
         });
 
         tagContainer.appendChild(removeButton);
@@ -90,8 +89,8 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         tagCategorySelect.addEventListener('change', function () {
-            dropdowns = []; // Clear dropdowns when a new category is selected
-            updateSelectedTagsValue(); // Update the input value
+            dropdowns = [];
+            updateSelectedTagsValue(); 
         });
     }
 
@@ -101,7 +100,7 @@ document.addEventListener("DOMContentLoaded", function () {
         options.forEach(option => {
             const tagOption = document.createElement('option');
             tagOption.value = option.id;
-            tagOption.text = option.tag; // Use 'tag' instead of 'name'
+            tagOption.text = option.tag;
             dropdown.appendChild(tagOption);
         });
 
@@ -140,18 +139,14 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 $(document).ready(function () {
-    // Initial state of the search results
     const originalSearchResultsHtml = $('#searchResults').html();
 
     $('#searchInput').on('input', function () {
         var searchTerm = $(this).val().trim();
 
-        // Check if the search term is empty
         if (searchTerm === '') {
-            // Revert to the original content
             resetSearchResults(originalSearchResultsHtml);
         } else {
-            // Perform the AJAX request
             $.ajax({
                 type: 'POST',
                 url: '../views/ajax.php',
@@ -166,7 +161,6 @@ $(document).ready(function () {
         }
     });
 
-    // Function to reset the search results
     function resetSearchResults(htmlContent) {
         $('#searchResults').html(htmlContent);
     }
